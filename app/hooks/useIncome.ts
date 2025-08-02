@@ -24,3 +24,26 @@ export const useIncomes = () => {
 
   return { incomes, loading };
 };
+
+export const useIncome = (id: number) => {
+  const [income, setIncome] = useState<Income>();
+  const [isloading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchIncomeById = async () => {
+      const { data, error } = await supabase
+        .from("income-tracker")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) {
+        console.log(error);
+      } else {
+        setIncome(data as Income);
+        setIsLoading(false);
+      }
+    };
+    fetchIncomeById();
+  }, [id]);
+
+  return { isloading, income };
+};

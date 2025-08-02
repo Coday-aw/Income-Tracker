@@ -6,10 +6,13 @@ const IncomeList = () => {
   const { incomes, loading } = useIncomes();
   return (
     <div className="flex flex-wrap gap-4">
-      {incomes.map((income) => (
-        <IncomeCard key={income.id} income={income} loading={loading} />
-      ))}
-      {/* <IncomeCard income={income} loading={loading} /> */}
+      {loading ? (
+        <div className="text-center text-white font-bold text-xl">
+          Loading...
+        </div>
+      ) : (
+        incomes.map((income) => <IncomeCard key={income.id} income={income} />)
+      )}
     </div>
   );
 };

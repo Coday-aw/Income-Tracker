@@ -3,7 +3,13 @@ import { GiReceiveMoney } from "react-icons/gi";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center p-6 rounded-2xl bg-transparent border border-white/30">
+    <nav
+      className="flex justify-between items-center p-6 rounded-2xl border border-white/30"
+      style={{
+        background:
+          "linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent",
+      }}
+    >
       <div className="flex justify-center items-center space-x-2">
         <GiReceiveMoney size={30} />
         <p className="font-bold text-xl">Icome Tracker</p>

@@ -3,6 +3,6 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  return <div className="py-10">{children}</div>;
+  return <div className="py-10 ">{children}</div>;
 };
 export default Layout;
