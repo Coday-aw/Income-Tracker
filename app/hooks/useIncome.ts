@@ -1,49 +1,78 @@
-import { supabase } from "@/lib/supbaseClient";
 import { Income } from "@/lib/types";
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 export const useIncomes = () => {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchIncomes = async () => {
-      const { data, error } = await supabase
-        .from("jobs")
-        .select("*")
-        .order("id", { ascending: false });
-      if (error) {
-        console.log(error);
-      } else {
-        setIncomes(data as Income[]);
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/income?creator=${user.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setIncomes(data.incomes || []);
+        setLoading(false);
+        console.log("Fetched incomes:", data);
+      } catch (error) {
+        console.error("Error fetching incomes:", error);
+        setIncomes([]);
         setLoading(false);
       }
     };
+
     fetchIncomes();
-  }, []);
+  }, [user?.id]);
 
   return { incomes, loading };
 };
 
-export const useIncome = (id: number) => {
+export const useIncome = (id: string) => {
   const [income, setIncome] = useState<Income>();
-  const [isloading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchIncomeById = async () => {
-      const { data, error } = await supabase
-        .from("jobs")
-        .select("*")
-        .eq("id", id)
-        .single();
-      if (error) {
-        console.log(error);
-      } else {
-        setIncome(data as Income);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/income/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await res.json();
+        setIncome(data.income || []);
+        setIsLoading(false);
+        console.log(data);
+      } catch (error) {
+        console.log("error fetching data", error);
         setIsLoading(false);
       }
     };
     fetchIncomeById();
   }, [id]);
 
-  return { isloading, income };
+  return { isLoading, income };
 };

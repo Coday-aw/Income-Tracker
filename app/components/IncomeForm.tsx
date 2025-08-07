@@ -1,13 +1,14 @@
 "use client";
-import { supabase } from "@/lib/supbaseClient";
+import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 
 const IncomeForm = () => {
-  const [title, setTitle] = useState("");
+  const [incomeTitle, setTitle] = useState("");
   const [hourlyPay, setHourlyPay] = useState<number | undefined>(undefined);
   const [taxCode, setTaxCode] = useState<number | undefined>(undefined);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUser();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,28 +16,38 @@ const IncomeForm = () => {
     setIsLoading(true);
 
     try {
-      if (!title || !hourlyPay || !taxCode) {
+      if (!incomeTitle || !hourlyPay || !taxCode) {
         setError("Vänligen fyll i alla fält");
         setIsLoading(false);
         return;
       }
 
-      const { data, error } = await supabase.from("income-tracker").insert([
+      const income = {
+        creator: user?.id,
+        incomeTitle: incomeTitle,
+        hourlyPay: hourlyPay,
+        taxCode: taxCode,
+      };
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/income`,
         {
-          income_title: title,
-          hourly_pay: hourlyPay,
-          tax_code: taxCode,
-        },
-      ]);
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(income),
+        }
+      );
 
-      if (error) {
-        setError("Ett fel uppstod när data skulle sparas");
-        console.error("Supabase error:", error);
-      } else {
+      const data = await res.json();
+
+      if (res.ok) {
         console.log("Data saved successfully:", data);
         setTitle("");
         setHourlyPay(undefined);
         setTaxCode(undefined);
+      } else {
+        console.log("somthing whent wrong");
       }
     } catch (error) {
       console.error("Unexpected error:", error);
@@ -63,7 +74,7 @@ const IncomeForm = () => {
           Titel
         </label>
         <input
-          value={title}
+          value={incomeTitle}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
           id="title"

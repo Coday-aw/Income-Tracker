@@ -10,8 +10,12 @@ const IncomeList = () => {
         <div className="text-center text-white font-bold text-xl">
           Loading...
         </div>
+      ) : incomes.length > 0 ? (
+        incomes.map((income) => <IncomeCard key={income._id} income={income} />)
       ) : (
-        incomes.map((income) => <IncomeCard key={income.id} income={income} />)
+        <div className="text-center text-white font-bold text-xl">
+          No incomes found
+        </div>
       )}
     </div>
   );

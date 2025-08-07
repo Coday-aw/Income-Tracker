@@ -19,7 +19,7 @@ const Navbar = () => {
           <Link href="/dashboard">Dashboard</Link>
         </li>
         <li className="font-bold  border border-white/20 p-2 rounded-full hover:bg-white hover:text-blue-400 cursor-pointer   ">
-          <Link href="/addIcome">Add Income</Link>
+          <Link href="/addIncome">Add Income</Link>
         </li>
       </ul>
     </nav>

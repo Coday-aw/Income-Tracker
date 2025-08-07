@@ -12,9 +12,9 @@ const hoursEntriesSchema = new mongoose.Schema(
 const IncomeSchema = new mongoose.Schema(
   {
     creator: { type: String, required: true },
-    income_title: { type: String, required: true },
-    hourly_pay: { type: Number, required: true },
-    tax_code: { type: Number, required: true },
+    incomeTitle: { type: String, required: true },
+    hourlyPay: { type: Number, required: true },
+    taxCode: { type: Number, required: true },
     hours_entries: { type: [hoursEntriesSchema] },
   },
   { timestamps: true }

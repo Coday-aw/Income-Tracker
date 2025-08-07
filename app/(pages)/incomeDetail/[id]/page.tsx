@@ -9,30 +9,12 @@ import Link from "next/link";
 
 function page() {
   const params = useParams();
-  const id = params.id ? Number(params.id) : undefined;
-  const { income, isloading } = useIncome(id as number);
-  //   const [income, setIncome] = useState<Income>();
-  //   const [isloading, setIsLoading] = useState(true);
+  const id = params.id ? params.id : undefined;
+  const { income, isLoading } = useIncome(id as string);
 
-  //   useEffect(() => {
-  //     const fetchIncomeById = async () => {
-  //       const { data, error } = await supabase
-  //         .from("income-tracker")
-  //         .select("*")
-  //         .eq("id", params.id)
-  //         .single();
-  //       if (error) {
-  //         console.log(error);
-  //       } else {
-  //         setIncome(data as Income);
-  //         setIsLoading(false);
-  //       }
-  //     };
-  //     fetchIncomeById();
-  //   }, [params.id]);
   return (
     <div>
-      {isloading ? (
+      {isLoading ? (
         <div>Loading... </div>
       ) : (
         <div
@@ -43,7 +25,7 @@ function page() {
           }}
         >
           <div className="flex justify-between">
-            <p className="text-5xl font-bold">{income?.income_title}</p>{" "}
+            <p className="text-5xl font-bold">{income?.incomeTitle}</p>{" "}
             <Link href={"/dashboard"}>
               <button className="bg-white/20 font-semibold px-6 py-3 rounded-full flex justify-center items-center gap-2 hover:translate-y-[-3px] transition duration-300 ease-in-out hover:shadow-2xl hover:bg-white/40 cursor-pointer">
                 <FaLongArrowAltLeft />

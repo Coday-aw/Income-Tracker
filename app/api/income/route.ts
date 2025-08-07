@@ -4,9 +4,9 @@ import Income from "@/app/models/IncomeTrackerSchema";
 
 interface IncomeRequestBody {
   creator: string;
-  income_title: string;
-  hourly_pay: number;
-  tax_code: number;
+  incomeTitle: string;
+  hourlyPay: number;
+  taxCode: number;
   hours_entries?: {
     date: Date;
     regular: number;
@@ -19,12 +19,12 @@ export async function POST(req: NextRequest) {
   try {
     const {
       creator,
-      income_title,
-      hourly_pay,
-      tax_code,
+      incomeTitle,
+      hourlyPay,
+      taxCode,
       hours_entries,
     }: IncomeRequestBody = await req.json();
-    if (!creator || !income_title || !hourly_pay || !tax_code) {
+    if (!creator || !incomeTitle || !incomeTitle || !taxCode) {
       return NextResponse.json(
         { message: "All required fields must be provided" },
         { status: 400 }
@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
 
     const newIncome = await Income.create({
       creator,
-      income_title,
-      hourly_pay,
-      tax_code,
+      incomeTitle,
+      hourlyPay,
+      taxCode,
       hours_entries: hours_entries || [],
     });
 
