@@ -9,7 +9,7 @@ export const useIncomes = () => {
   useEffect(() => {
     const fetchIncomes = async () => {
       const { data, error } = await supabase
-        .from("income-tracker")
+        .from("jobs")
         .select("*")
         .order("id", { ascending: false });
       if (error) {
@@ -31,7 +31,7 @@ export const useIncome = (id: number) => {
   useEffect(() => {
     const fetchIncomeById = async () => {
       const { data, error } = await supabase
-        .from("income-tracker")
+        .from("jobs")
         .select("*")
         .eq("id", id)
         .single();
