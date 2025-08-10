@@ -1,7 +1,8 @@
-interface hours_entries {
-  date: Date;
+export interface Hours_entries {
+  date: string;
   regular: number;
   overtime: number;
+  overtime_compensation: number;
 }
 
 export interface Income {
@@ -9,5 +10,5 @@ export interface Income {
   incomeTitle: string;
   hourlyPay: number;
   taxCode: number;
-  hours_entries: hours_entries[];
+  hours_entries: Hours_entries[];
 }

@@ -1,3 +1,8 @@
+import {
+  calculateNetSalary,
+  calculateTotalHours,
+  formatCurrency,
+} from "@/lib/calculations";
 import { Income } from "@/lib/types";
 import Link from "next/link";
 
@@ -6,6 +11,8 @@ interface IncomeCardProps {
 }
 
 const IncomeCard = ({ income }: IncomeCardProps) => {
+  const nettoLön = calculateNetSalary(income);
+  const totalTimmar = calculateTotalHours(income);
   return (
     <Link
       href={`/incomeDetail/${income._id}`}
@@ -16,9 +23,9 @@ const IncomeCard = ({ income }: IncomeCardProps) => {
       }}
     >
       <p className="text-2xl font-bold">{income.incomeTitle}</p>
-      <p className="text-lg font-bold">Total timmar: {income.hourlyPay}</p>
+      <p className="text-lg font-bold">Total timmar: {totalTimmar}</p>
       <div className="flex justify-center items-center bg-white/10  rounded-lg p-2 mt-2 text-xl font-bold">
-        <span>Netto:</span> 7000kr
+        <span>Netto: </span> {formatCurrency(nettoLön)}kr
       </div>
     </Link>
   );

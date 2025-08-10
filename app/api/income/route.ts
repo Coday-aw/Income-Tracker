@@ -11,6 +11,7 @@ interface IncomeRequestBody {
     date: Date;
     regular: number;
     overtime: number;
+    overtime_compensation: number;
   }[];
 }
 

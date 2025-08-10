@@ -6,11 +6,32 @@ import HoursForm from "@/app/components/HoursForm";
 import StatCard from "@/app/components/StatCard";
 import HoursHistory from "@/app/components/HoursHistory";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Hours_entries, Income } from "@/lib/types";
 
 function page() {
   const params = useParams();
-  const id = params.id ? params.id : undefined;
-  const { income, isLoading } = useIncome(id as string);
+  const id = typeof params.id === "string" ? params.id : undefined;
+  const { income: initialIncome, isLoading } = useIncome(id as string);
+
+  // Local state to manage real-time updates
+  const [income, setIncome] = useState<Income | undefined>(initialIncome);
+
+  // Update local state when hook data changes
+  useEffect(() => {
+    setIncome(initialIncome);
+  }, [initialIncome]);
+
+  // Function to update income when hours are added
+  const handleHoursAdded = (newHoursEntry: Hours_entries) => {
+    if (income) {
+      const updatedIncome = {
+        ...income,
+        hours_entries: [...income.hours_entries, newHoursEntry],
+      };
+      setIncome(updatedIncome);
+    }
+  };
 
   return (
     <div>
@@ -33,9 +54,9 @@ function page() {
               </button>{" "}
             </Link>
           </div>
-          <StatCard />
-          <HoursForm />
-          <HoursHistory />
+          {income && <StatCard income={income} />}
+          {id && <HoursForm incomeId={id} onHoursAdded={handleHoursAdded} />}
+          {income && <HoursHistory income={income} />}
         </div>
       )}
     </div>

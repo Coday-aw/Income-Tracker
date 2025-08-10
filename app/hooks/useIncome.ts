@@ -2,6 +2,7 @@ import { Income } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 
+// Hook to fetch all incomes for the current user
 export const useIncomes = () => {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,6 +47,7 @@ export const useIncomes = () => {
   return { incomes, loading };
 };
 
+// Hook to fetch a specific income by ID
 export const useIncome = (id: string) => {
   const [income, setIncome] = useState<Income>();
   const [isLoading, setIsLoading] = useState(true);

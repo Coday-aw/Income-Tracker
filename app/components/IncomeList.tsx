@@ -4,6 +4,7 @@ import { useIncomes } from "../hooks/useIncome";
 
 const IncomeList = () => {
   const { incomes, loading } = useIncomes();
+
   return (
     <div className="flex flex-wrap gap-4">
       {loading ? (

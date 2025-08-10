@@ -1,14 +1,16 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 const IncomeForm = () => {
   const [incomeTitle, setTitle] = useState("");
   const [hourlyPay, setHourlyPay] = useState<number | undefined>(undefined);
   const [taxCode, setTaxCode] = useState<number | undefined>(undefined);
   const [error, setError] = useState("");
+  const [incomeAdded, setIncomeAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,6 +45,8 @@ const IncomeForm = () => {
 
       if (res.ok) {
         console.log("Data saved successfully:", data);
+        setIncomeAdded(true);
+        router.push("/dashboard");
         setTitle("");
         setHourlyPay(undefined);
         setTaxCode(undefined);
