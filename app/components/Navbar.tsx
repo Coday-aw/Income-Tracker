@@ -12,7 +12,7 @@ const Navbar = () => {
     >
       <div className="flex justify-center items-center space-x-2">
         <GiReceiveMoney size={30} />
-        <p className="font-bold text-xl">Icome Tracker</p>
+        <p className="font-bold text-xl">Income Tracker</p>
       </div>
       <ul className="flex space-x-4">
         <li className="font-bold  border border-white/20 p-2 rounded-full hover:bg-white hover:text-blue-400 cursor-pointer   ">
